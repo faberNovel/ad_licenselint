@@ -3,6 +3,8 @@ module ADLicenseLint
   class Runner
     attr_accessor :options
 
+    POD_SOURCE = Pod::Source.new("~/.cocoapods/repos/master")
+
     def initialize
       @options = OptionHandler.parse
     end
@@ -29,6 +31,8 @@ module ADLicenseLint
         .select(&:is_valid)
         .uniq(&:title)
 
+      entries.each { |e| e.update_source_url(source_url(e)) }
+
       warning_entries = entries
         .select { |entry| !entry.is_accepted }
 
@@ -44,9 +48,9 @@ module ADLicenseLint
 
     private
     def terminal_entries(entries)
-      rows = entries.map { |entry| [entry.title, entry.license, entry.copyright] }
+      rows = entries.map { |entry| [entry.title, entry.license, entry.source_url] }
       table = Terminal::Table.new({
-        headings: ['Pod', 'License', 'Copyright'],
+        headings: ['Pod', 'License', 'Source'],
         rows: rows
       })
       table.to_s
@@ -54,12 +58,36 @@ module ADLicenseLint
 
     def markdown_entries(entries)
       rows = [
-        "| Pod | License | Copyright |",
+        "| Pod | License | Source |",
         "| --- | --- | --- |",
       ] + entries.map { |entry|
-        "| #{entry.title} | #{entry.license} | #{entry.copyright} |"
+        "| #{entry.title} | #{entry.license} | #{entry.source_url} |"
       }
-      rows.join("\n")
+      summary = rows.join("\n")
+
+      details = entries.map { |entry|
+        ["<details>",
+         "<summary>#{entry.title}</summary>",
+         "",
+         "```",
+         entry.footer_text,
+         "```",
+         "</details>"].join("\n")
+       }.join("\n")
+
+       return "#{summary}\n\n#{details}"
+    end
+
+    def source_url(entry)
+      url = git_url(entry)
+      return nil if url.nil?
+      url.gsub(".git", "")
+    end
+
+    def git_url(entry)
+      set = POD_SOURCE.set(entry.title)
+      return nil if set.highest_version.nil?
+      set.specification.to_hash["source"]["git"]
     end
   end
 end

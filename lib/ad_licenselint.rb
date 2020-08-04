@@ -4,6 +4,7 @@ require 'colorize'
 require 'tempfile'
 require 'json'
 require 'terminal-table'
+require 'cocoapods-core'
 
 require 'ad_licenselint/ad_logger'
 require 'ad_licenselint/option_handler'
