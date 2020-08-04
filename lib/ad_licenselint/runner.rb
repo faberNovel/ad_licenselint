@@ -15,27 +15,15 @@ module ADLicenseLint
 
       plist_files = Dir[acknowledgements_plist_path] # one plist for each target
       json_contents = plist_files.map { |plist_file| acknowledgement_json(plist_file) }
-      pod_names = pod_names_from_podfile
-
-      entries = json_contents
-        .map { |json| json["PreferenceSpecifiers"].map { |hash| LicenseEntry.new hash } }
-        .flatten
-        .select(&:is_valid)
-        .select { |e| pod_names.include?(e.title) }
-        .uniq(&:title)
-
-      entries.each { |e| e.source_url = source_url(e) }
-
-      warning_entries = entries
-        .select { |entry| !entry.is_accepted }
-
+      entries = all_entries(json_contents)
+      warning_entries = entries.select { |entry| !entry.is_accepted }
       displayed_entries = options[:all] ? entries : warning_entries
 
       case options[:format]
       when ADLicenseLint::Constant::MARKDOWN_FORMAT_OPTION
-        markdown_entries(displayed_entries)
+        markdown_format(displayed_entries)
       when ADLicenseLint::Constant::TERMINAL_FORMAT_OPTION
-        terminal_entries(displayed_entries)
+        terminal_format(displayed_entries)
       end
     end
 
@@ -52,7 +40,19 @@ module ADLicenseLint
       end
     end
 
-    def terminal_entries(entries)
+    def all_entries(json_contents)
+      pod_names = pod_names_from_podfile
+      entries = json_contents
+        .map { |json| json["PreferenceSpecifiers"].map { |hash| LicenseEntry.new hash } }
+        .flatten
+        .select(&:is_valid)
+        .select { |e| pod_names.include?(e.title) }
+        .uniq(&:title)
+      entries.each { |e| e.source_url = source_url(e) }
+      entries
+    end
+
+    def terminal_format(entries)
       rows = entries.map { |entry| [entry.title, entry.license, entry.source_url] }
       table = Terminal::Table.new({
         headings: ['Pod', 'License', 'Source'],
@@ -61,7 +61,7 @@ module ADLicenseLint
       table.to_s
     end
 
-    def markdown_entries(entries)
+    def markdown_format(entries)
       rows = [
         "| Pod | License | Source |",
         "| --- | --- | --- |",
