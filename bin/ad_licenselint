@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
 require 'ad_licenselint'
-puts ADLicenseLint::Runner.new.run(ARGV)
+puts ADLicenseLint::Runner.new.run

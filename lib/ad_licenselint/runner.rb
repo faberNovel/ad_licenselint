@@ -5,12 +5,12 @@ module ADLicenseLint
 
     POD_SOURCE = Pod::Source.new("~/.cocoapods/repos/master")
 
-    def initialize
-      @options = OptionHandler.parse
+    def initialize(options = nil)
+      @options = options || OptionHandler.parse
     end
 
-    def run(args = ARGV)
-      pods_support_files_path = File.join(File.expand_path(options.path), 'Pods', 'Target\ Support\ Files')
+    def run
+      pods_support_files_path = File.join(File.expand_path(options[:path]), 'Pods', 'Target\ Support\ Files')
       raise "Folder #{pods_support_files_path} does not exist" if Dir[pods_support_files_path].empty?
 
       plist_files = Dir[File.join(pods_support_files_path, "Pods-*/*acknowledgements.plist")]
@@ -37,9 +37,9 @@ module ADLicenseLint
       warning_entries = entries
         .select { |entry| !entry.is_accepted }
 
-      displayed_entries = options.all ? entries : warning_entries
+      displayed_entries = options[:all] ? entries : warning_entries
 
-      case options.format
+      case options[:format]
       when ADLicenseLint::Constant::MARKDOWN_FORMAT_OPTION
         markdown_entries(displayed_entries)
       when ADLicenseLint::Constant::TERMINAL_FORMAT_OPTION
@@ -93,7 +93,7 @@ module ADLicenseLint
     end
 
     def pod_names_from_podfile
-      path = File.join(File.expand_path(options.path), 'Podfile')
+      path = File.join(File.expand_path(options[:path]), 'Podfile')
       Pod::Podfile.from_file(path).dependencies
         .map(&:name)
         .map { |e| e.split("/").first } # ex: convert CocoaLumberjack/Swift to CocoaLumberjack

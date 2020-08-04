@@ -1,28 +1,29 @@
 module ADLicenseLint
 
-  Options = Struct.new(:format, :path, :all)
-
   class OptionHandler
 
     def self.parse
 
-      options = Options.new(ADLicenseLint::Constant::TERMINAL_FORMAT_OPTION, ".", false)
-
+      options = {
+        format: ADLicenseLint::Constant::TERMINAL_FORMAT_OPTION,
+        path: ".",
+        all: false
+      }
       available_formats = ADLicenseLint::Constant::AVAILABLE_OPTIONS
 
       parser = OptionParser.new do |p|
         p.banner = "Usage: ad_licenselint -f [md|term]"
 
-        p.on("-f", "--format [FORMAT]", "[Optional] Select output format [#{available_formats.join(", ")}] (default to #{options.format})") do |arg|
-          options.format = arg
+        p.on("-f", "--format [FORMAT]", "[Optional] Select output format [#{available_formats.join(", ")}] (default to #{options[:format]})") do |arg|
+          options[:format] = arg
         end
 
-        p.on("-p", "--path [PATH]", "[Optional] Sources directory (default to \"#{options.path}\")") do |arg|
-          options.path = arg
+        p.on("-p", "--path [PATH]", "[Optional] Sources directory (default to \"#{options[:path]}\")") do |arg|
+          options[:path] = arg
         end
 
-        p.on("-a", "--all", "[Optional] Display all licenses (default to #{options.all})") do |arg|
-          options.all = true
+        p.on("-a", "--all", "[Optional] Display all licenses (default to #{options[:all]})") do |arg|
+          options[:all] = true
         end
 
         p.on("-h", "--help", "Prints this help") do
@@ -33,7 +34,7 @@ module ADLicenseLint
 
       begin
         parser.parse!
-        raise OptionParser::InvalidArgument, "--format" unless available_formats.include?(options.format)
+        raise OptionParser::InvalidArgument, "--format" unless available_formats.include?(options[:format])
       rescue OptionParser::MissingArgument => e
         LOGGER.log(:error, :red, "Missing argument for option #{e.args.join(",")}")
         exit
