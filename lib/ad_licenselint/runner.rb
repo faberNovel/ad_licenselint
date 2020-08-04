@@ -25,10 +25,13 @@ module ADLicenseLint
         result
       end
 
+      pod_names = pod_names_from_podfile
+
       entries = json_contents
         .map { |json| json["PreferenceSpecifiers"].map { |hash| LicenseEntry.new hash } }
         .flatten
         .select(&:is_valid)
+        .select { |e| pod_names.include?(e.title) }
         .uniq(&:title)
 
       entries.each { |e| e.update_source_url(source_url(e)) }
@@ -89,6 +92,14 @@ module ADLicenseLint
       return nil if set.highest_version.nil?
       spec = set.specification.to_hash
       spec["source"]["git"] || spec["homepage"]
+    end
+
+    def pod_names_from_podfile
+      path = File.join(File.expand_path(options.path), 'Podfile')
+      Pod::Podfile.from_file(path).dependencies
+        .map(&:name)
+        .map { |e| e.split("/").first } # ex: convert CocoaLumberjack/Swift to CocoaLumberjack
+        .uniq
     end
   end
 end
