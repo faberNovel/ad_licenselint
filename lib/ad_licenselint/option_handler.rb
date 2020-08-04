@@ -1,6 +1,6 @@
 module ADLicenseLint
 
-  Options = Struct.new(:format)
+  Options = Struct.new(:format, :path)
 
   class OptionHandler
 
@@ -17,6 +17,10 @@ module ADLicenseLint
           options.format = arg
         end
 
+        p.on("-p", "--path [PATH]", "Path of .xcworkspace") do |arg|
+          options.path = arg
+        end
+
         p.on("-h", "--help", "Prints this help") do
           puts p
           exit
@@ -25,6 +29,7 @@ module ADLicenseLint
 
       begin
         parser.parse!
+        options.path = options.path || "."
         raise OptionParser::MissingArgument, "--format" if options.format.nil?
         raise OptionParser::InvalidArgument, "--format" unless available_formats.include?(options.format)
       rescue OptionParser::MissingArgument => e
