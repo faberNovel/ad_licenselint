@@ -16,7 +16,7 @@ module ADLicenseLint
       plist_files = Dir[acknowledgements_plist_path] # one plist for each target
       json_contents = plist_files.map { |plist_file| acknowledgement_json(plist_file) }
       entries = all_entries(json_contents)
-      warning_entries = entries.select { |entry| !entry.is_accepted }
+      warning_entries = entries.reject(&:is_accepted)
       displayed_entries = options[:all] ? entries : warning_entries
 
       case options[:format]
@@ -48,7 +48,7 @@ module ADLicenseLint
         .select(&:is_valid)
         .select { |e| pod_names.include?(e.title) }
         .uniq(&:title)
-      entries.each { |e| e.source_url = source_url(e) }
+      entries.each { |e| e.source_url = source_url(e.title) }
       entries
     end
 
@@ -83,17 +83,20 @@ module ADLicenseLint
        return "#{summary}\n\n#{details}"
     end
 
-    def source_url(entry)
-      url = git_url(entry)
-      return nil if url.nil?
-      url.gsub(".git", "")
+    def source_url(pod_name)
+      url = git_url(pod_name)
+      url&.gsub(".git", "")
     end
 
-    def git_url(entry)
-      set = POD_SOURCE.set(entry.title)
-      return nil if set.highest_version.nil?
-      spec = set.specification.to_hash
-      spec["source"]["git"] || spec["homepage"]
+    def git_url(pod_name)
+      spec = pod_specification(pod_name)
+      spec["source"]["git"] || spec["homepage"] unless spec.nil?
+    end
+
+    def pod_specification(pod_name)
+      set = POD_SOURCE.set(pod_name)
+      return nil if set.highest_version.nil? # access to specification crashes if highest_version is nil
+      set.specification.to_hash
     end
 
     def pod_names_from_podfile
