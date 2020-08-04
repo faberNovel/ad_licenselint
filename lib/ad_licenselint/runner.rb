@@ -87,7 +87,8 @@ module ADLicenseLint
     def git_url(entry)
       set = POD_SOURCE.set(entry.title)
       return nil if set.highest_version.nil?
-      set.specification.to_hash["source"]["git"]
+      spec = set.specification.to_hash
+      spec["source"]["git"] || spec["homepage"]
     end
   end
 end
