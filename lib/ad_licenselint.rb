@@ -5,6 +5,7 @@ require 'tempfile'
 require 'json'
 require 'terminal-table'
 require 'cocoapods-core'
+require 'json'
 
 require 'ad_licenselint/ad_logger'
 require 'ad_licenselint/option_handler'

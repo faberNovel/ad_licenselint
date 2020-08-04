@@ -1,28 +1,20 @@
 module ADLicenseLint
 
   class Runner
-    attr_accessor :options
+    attr_accessor :options, :path
 
     POD_SOURCE = Pod::Source.new("~/.cocoapods/repos/master")
 
     def initialize(options = nil)
       @options = options || OptionHandler.parse
+      @path = File.expand_path(@options[:path])
     end
 
     def run
-      pods_support_files_path = File.join(File.expand_path(options[:path]), 'Pods', 'Target\ Support\ Files')
-      raise "Folder #{pods_support_files_path} does not exist" if Dir[pods_support_files_path].empty?
+      raise "Folder #{target_support_path} does not exist" if Dir[target_support_path].empty?
 
-      plist_files = Dir[File.join(pods_support_files_path, "Pods-*/*acknowledgements.plist")]
-
-      json_contents = plist_files.map do |plist_file|
-        tmp_file = Tempfile.new('license')
-        system "plutil -convert json -o #{tmp_file.path} \"#{plist_file}\"" # convert plist to json
-        result = JSON.parse(File.read(tmp_file.path))
-        tmp_file.unlink # deletes the temp file
-        result
-      end
-
+      plist_files = Dir[acknowledgements_plist_path] # one plist for each target
+      json_contents = plist_files.map { |plist_file| acknowledgement_json(plist_file) }
       pod_names = pod_names_from_podfile
 
       entries = json_contents
@@ -48,6 +40,18 @@ module ADLicenseLint
     end
 
     private
+
+    def acknowledgement_json(plist_file)
+      tmp_file = Tempfile.new('license')
+      begin
+        system "plutil -convert json -o #{tmp_file.path} \"#{plist_file}\"" # convert plist to json
+        JSON.parse(File.read(tmp_file.path))
+      ensure
+        tmp_file.close
+        tmp_file.unlink # deletes the temp file
+      end
+    end
+
     def terminal_entries(entries)
       rows = entries.map { |entry| [entry.title, entry.license, entry.source_url] }
       table = Terminal::Table.new({
@@ -93,11 +97,22 @@ module ADLicenseLint
     end
 
     def pod_names_from_podfile
-      path = File.join(File.expand_path(options[:path]), 'Podfile')
-      Pod::Podfile.from_file(path).dependencies
+      Pod::Podfile.from_file(podfile_path).dependencies
         .map(&:name)
         .map { |e| e.split("/").first } # ex: convert CocoaLumberjack/Swift to CocoaLumberjack
         .uniq
+    end
+
+    def podfile_path
+      File.join(@path, 'Podfile')
+    end
+
+    def target_support_path
+      File.join(@path, 'Pods', 'Target\ Support\ Files')
+    end
+
+    def acknowledgements_plist_path
+      File.join(target_support_path, "Pods-*/*acknowledgements.plist")
     end
   end
 end
