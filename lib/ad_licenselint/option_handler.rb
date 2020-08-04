@@ -1,6 +1,6 @@
 module ADLicenseLint
 
-  Options = Struct.new(:format, :path)
+  Options = Struct.new(:format, :path, :all)
 
   class OptionHandler
 
@@ -21,6 +21,10 @@ module ADLicenseLint
           options.path = arg
         end
 
+        p.on("-a", "--all", "Display all licenses") do |arg|
+          options.all = true
+        end
+
         p.on("-h", "--help", "Prints this help") do
           puts p
           exit
@@ -30,6 +34,7 @@ module ADLicenseLint
       begin
         parser.parse!
         options.path = options.path || "."
+        options.all = options.all || false
         raise OptionParser::MissingArgument, "--format" if options.format.nil?
         raise OptionParser::InvalidArgument, "--format" unless available_formats.include?(options.format)
       rescue OptionParser::MissingArgument => e

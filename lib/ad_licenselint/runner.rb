@@ -32,11 +32,13 @@ module ADLicenseLint
       warning_entries = entries
         .select { |entry| !entry.is_accepted }
 
+      displayed_entries = options.all ? entries : warning_entries
+
       case options.format
       when ADLicenseLint::Constant::MARKDOWN_FORMAT_OPTION
-        markdown_entries(warning_entries)
+        markdown_entries(displayed_entries)
       when ADLicenseLint::Constant::TERMINAL_FORMAT_OPTION
-        terminal_entries(warning_entries)
+        terminal_entries(displayed_entries)
       end
     end
 
