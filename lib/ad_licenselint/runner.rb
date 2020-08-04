@@ -10,8 +10,6 @@ module ADLicenseLint
     end
 
     def run(args = ARGV)
-      LOGGER.log(:info, :green, "OPTIONS : #{options}")
-
       pods_support_files_path = File.join(File.expand_path(options.path), 'Pods', 'Target\ Support\ Files')
       raise "Folder #{pods_support_files_path} does not exist" if Dir[pods_support_files_path].empty?
 
