@@ -6,22 +6,22 @@ module ADLicenseLint
 
     def self.parse
 
-      options = Options.new
+      options = Options.new(ADLicenseLint::Constant::TERMINAL_FORMAT_OPTION, ".", false)
 
       available_formats = ADLicenseLint::Constant::AVAILABLE_OPTIONS
 
       parser = OptionParser.new do |p|
         p.banner = "Usage: ad_licenselint -f [md|term]"
 
-        p.on("-f", "--format [FORMAT]", "Select output format (#{available_formats.join(", ")})") do |arg|
+        p.on("-f", "--format [FORMAT]", "[Optional] Select output format [#{available_formats.join(", ")}] (default to #{options.format})") do |arg|
           options.format = arg
         end
 
-        p.on("-p", "--path [PATH]", "Path of .xcworkspace") do |arg|
+        p.on("-p", "--path [PATH]", "[Optional] Sources directory (default to \"#{options.path}\")") do |arg|
           options.path = arg
         end
 
-        p.on("-a", "--all", "Display all licenses") do |arg|
+        p.on("-a", "--all", "[Optional] Display all licenses (default to #{options.all})") do |arg|
           options.all = true
         end
 
@@ -33,9 +33,6 @@ module ADLicenseLint
 
       begin
         parser.parse!
-        options.path = options.path || "."
-        options.all = options.all || false
-        raise OptionParser::MissingArgument, "--format" if options.format.nil?
         raise OptionParser::InvalidArgument, "--format" unless available_formats.include?(options.format)
       rescue OptionParser::MissingArgument => e
         LOGGER.log(:error, :red, "Missing argument for option #{e.args.join(",")}")
