@@ -34,7 +34,7 @@ module ADLicenseLint
         .select { |e| pod_names.include?(e.title) }
         .uniq(&:title)
 
-      entries.each { |e| e.update_source_url(source_url(e)) }
+      entries.each { |e| e.source_url = source_url(e) }
 
       warning_entries = entries
         .select { |entry| !entry.is_accepted }

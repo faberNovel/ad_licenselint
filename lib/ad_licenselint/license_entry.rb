@@ -1,5 +1,6 @@
 class LicenseEntry
   attr_reader :footer_text, :license, :title, :type, :source_url
+  attr_writer :source_url
 
   def initialize(hash)
     @footer_text = hash["FooterText"] || ""
@@ -18,9 +19,5 @@ class LicenseEntry
 
   def copyright
     (/Copyright(.*)$/.match footer_text)[0]
-  end
-
-  def update_source_url(source_url)
-    @source_url = source_url
   end
 end
