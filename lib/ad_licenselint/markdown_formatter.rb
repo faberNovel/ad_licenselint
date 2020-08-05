@@ -1,29 +1,46 @@
 module ADLicenseLint
   class MarkdownFormatter
     def initialize(report)
-      @report = report
+      @entries = report.entries.sort_by(&:pod_name)
     end
 
     def formatted_content
+      "#{table}\n\n#{foldable_content}"
+    end
+
+    private
+
+    def table
       rows = [
         "| Pod | License | Source |",
         "| --- | --- | --- |",
-      ] + @report.entries.map { |entry|
+      ] + @entries.map { |entry|
         "| #{entry.pod_name} | #{entry.license_name} | #{entry.source_url} |"
       }
-      summary = rows.join("\n")
+      rows.join("\n")
+    end
 
-      details = @report.entries.map { |entry|
-        ["<details>",
-         "<summary>#{entry.pod_name}</summary>",
-         "",
-         "```",
-         entry.license_content,
-         "```",
-         "</details>"].join("\n")
-       }.join("\n")
+    def foldable_content
+      [
+        "<details>",
+        "<summary>Licenses</summary>",
+        "",
+        licenses_content,
+        "</details>"
+      ].join("\n")
+    end
 
-       "#{summary}\n\n#{details}"
+    def licenses_content
+      @entries
+        .map { |entry|
+          [
+            "### #{entry.pod_name}",
+            "```",
+            entry.license_content,
+            "```",
+          ].join("\n")
+        }
+        .join("\n")
     end
   end
 end

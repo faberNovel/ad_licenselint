@@ -6,14 +6,16 @@ module ADLicenseLint
     end
 
     def formatted_content
-      rows = @report.entries.map { |entry|
-        [entry.pod_name, entry.license_name, entry.source_url]
-      }
-      table = Terminal::Table.new({
+      rows = @report
+        .entries
+        .sort_by(&:pod_name)
+        .map { |entry|
+          [entry.pod_name, entry.license_name, entry.source_url]
+        }
+      Terminal::Table.new({
         headings: ['Pod', 'License', 'Source'],
         rows: rows
-      })
-      table.to_s
+      }).to_s
     end
   end
 end
