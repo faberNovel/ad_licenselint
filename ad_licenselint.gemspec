@@ -23,6 +23,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'minitest', '~> 5.11'
   s.add_development_dependency 'byebug', '~> 11.0'
   s.add_development_dependency 'minitest-reporters', '~> 1.3'
+  s.add_development_dependency 'minitest-hooks', '~> 1.5'
+  s.add_development_dependency 'cocoapods', '~> 1.9'
 
   s.add_dependency 'colorize', '~> 0.8'
   s.add_dependency 'terminal-table', '~> 1.8'

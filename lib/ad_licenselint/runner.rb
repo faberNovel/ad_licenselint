@@ -19,6 +19,8 @@ module ADLicenseLint
       warning_entries = entries.reject(&:is_accepted)
       displayed_entries = options[:all] ? entries : warning_entries
 
+      return "" if displayed_entries.empty?
+
       case options[:format]
       when ADLicenseLint::Constant::MARKDOWN_FORMAT_OPTION
         markdown_format(displayed_entries)
