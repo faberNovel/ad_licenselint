@@ -5,7 +5,7 @@ The purpose of this gem is to automatically generate a summary of the licenses f
 
 ## Example
 
-```ruby
+```
 bundle exec ad_licenselint -f term -p /path/to/Podfile -a
 
 +-------------------+----------------------------+----------------------------------------------------+
@@ -28,12 +28,12 @@ gem 'ad_licenselint`
 ```
 
 And then execute:
-```sh
+```
 bundle install
 ```
 
 You can also install it globally running:
-```sh
+```
 gem install ad_licenselint
 ```
 
@@ -41,7 +41,7 @@ gem install ad_licenselint
 
 ### Command line:
 
-```ruby
+```
 cd path/to/Podfile
 bundle exec ad_licenselint
 
@@ -59,7 +59,7 @@ This will output the licenses that are not free to use in your project. By defau
 
 If you want to see all the licenses, run:
 
-```ruby
+```
 bundle exec ad_licenselint -a
 
 +-------------------+----------------------------+----------------------------------------------------+
@@ -75,7 +75,7 @@ bundle exec ad_licenselint -a
 
 By default the output format is set to `term`. You can use `md` to generate a markdown output:
 
-```ruby
+```
 bundle exec ad_licenselint -f md
 ```
 
@@ -133,7 +133,7 @@ Commercial-use license to use in commercial products. Please contact me via emai
 
 If you want to see all the options available, display help:
 
-```ruby
+```
 bundle exec ad_licenselint -h
 ```
 
