@@ -7,14 +7,7 @@ Gem::Specification.new do |s|
   s.description = "Lint the licenses for iOS projects"
   s.authors     = ["Pierre Felgines"]
   s.email       = 'pierre.felgines@fabernovel.com'
-  s.files       = [
-    "lib/ad_licenselint.rb",
-    "lib/ad_licenselint/ad_logger.rb",
-    "lib/ad_licenselint/option_handler.rb",
-    "lib/ad_licenselint/runner.rb",
-    "lib/ad_licenselint/license_entry.rb",
-    "lib/ad_licenselint/constant.rb",
-  ]
+  s.files       = Dir['lib/**/*.rb']
   s.homepage    = 'https://rubygems.org/gems/ad_licenselint'
   s.license     = 'MIT'
 

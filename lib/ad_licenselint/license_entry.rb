@@ -1,23 +1,31 @@
 class LicenseEntry
-  attr_reader :footer_text, :license, :title, :type, :source_url
+  attr_reader :license_content, :license_name, :pod_name, :source_url
   attr_writer :source_url
 
   def initialize(hash)
-    @footer_text = hash["FooterText"] || ""
-    @license = hash["License"] || ""
-    @title = hash["Title"] || ""
-    @type = hash["Type"] || ""
+    @pod_name = hash["Title"] || ""
+    @license_name = hash["License"] || ""
+    @license_content = hash["FooterText"] || ""
   end
 
   def is_valid
-    !title.empty? && !license.empty?
+    !pod_name.empty? && !license_name.empty?
   end
 
   def is_accepted
-    ADLicenseLint::Constant::ACCEPTED_LICENSES.include?(license)
+    ADLicenseLint::Constant::ACCEPTED_LICENSES.include?(license_name)
   end
 
   def copyright
-    (/Copyright(.*)$/.match footer_text)[0]
+    (/Copyright(.*)$/.match license_content)[0]
+  end
+
+  def to_hash
+    {
+      pod_name: @pod_name,
+      license_content: @license_content,
+      license_name: @license_name,
+      source_url: @source_url
+    }
   end
 end

@@ -10,7 +10,7 @@ module ADLicenseLint
       @path = File.expand_path(@options[:path])
     end
 
-    def run
+    def create_report
       raise "Folder #{target_support_path} does not exist" if Dir[target_support_path].empty?
 
       plist_files = Dir[acknowledgements_plist_path] # one plist for each target
@@ -19,13 +19,18 @@ module ADLicenseLint
       warning_entries = entries.reject(&:is_accepted)
       displayed_entries = options[:all] ? entries : warning_entries
 
-      return "" if displayed_entries.empty?
+      Report.new(displayed_entries)
+    end
+
+    def run
+      report = create_report
+      return "" if report.empty?
 
       case options[:format]
       when ADLicenseLint::Constant::MARKDOWN_FORMAT_OPTION
-        markdown_format(displayed_entries)
+        MarkdownFormatter.new(report).formatted_content
       when ADLicenseLint::Constant::TERMINAL_FORMAT_OPTION
-        terminal_format(displayed_entries)
+        TerminalFormatter.new(report).formatted_content
       end
     end
 
@@ -48,41 +53,10 @@ module ADLicenseLint
         .map { |json| json["PreferenceSpecifiers"].map { |hash| LicenseEntry.new hash } }
         .flatten
         .select(&:is_valid)
-        .select { |e| pod_names.include?(e.title) }
-        .uniq(&:title)
-      entries.each { |e| e.source_url = source_url(e.title) }
+        .select { |e| pod_names.include?(e.pod_name) }
+        .uniq(&:pod_name)
+      entries.each { |e| e.source_url = source_url(e.pod_name) }
       entries
-    end
-
-    def terminal_format(entries)
-      rows = entries.map { |entry| [entry.title, entry.license, entry.source_url] }
-      table = Terminal::Table.new({
-        headings: ['Pod', 'License', 'Source'],
-        rows: rows
-      })
-      table.to_s
-    end
-
-    def markdown_format(entries)
-      rows = [
-        "| Pod | License | Source |",
-        "| --- | --- | --- |",
-      ] + entries.map { |entry|
-        "| #{entry.title} | #{entry.license} | #{entry.source_url} |"
-      }
-      summary = rows.join("\n")
-
-      details = entries.map { |entry|
-        ["<details>",
-         "<summary>#{entry.title}</summary>",
-         "",
-         "```",
-         entry.footer_text,
-         "```",
-         "</details>"].join("\n")
-       }.join("\n")
-
-       return "#{summary}\n\n#{details}"
     end
 
     def source_url(pod_name)
