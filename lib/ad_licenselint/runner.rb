@@ -24,7 +24,10 @@ module ADLicenseLint
 
     def run
       report = create_report
-      return "" if report.empty?
+      if report.empty?
+        LOGGER.log(:info, :green, "No warnings found.")
+        return ""
+      end
 
       case options[:format]
       when ADLicenseLint::Constant::MARKDOWN_FORMAT_OPTION
