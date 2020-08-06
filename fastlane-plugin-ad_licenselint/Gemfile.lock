@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    fastlane-plugin-ad_licenselint (1.0.0)
+    fastlane-plugin-ad_licenselint (1.1.0)
       ad_licenselint (~> 1.0.0)
 
 GEM
