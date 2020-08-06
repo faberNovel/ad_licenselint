@@ -54,6 +54,7 @@ module ADLicenseLint
         .flatten
         .select(&:is_valid)
         .select { |e| pod_names.include?(e.pod_name) }
+        .select { |e| options[:only].nil? ? true : options[:only].include?(e.pod_name) }
         .uniq(&:pod_name)
       entries.each { |e| e.source_url = source_url(e.pod_name) }
       entries

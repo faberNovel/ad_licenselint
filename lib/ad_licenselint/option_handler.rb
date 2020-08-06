@@ -7,7 +7,8 @@ module ADLicenseLint
       options = {
         format: ADLicenseLint::Constant::TERMINAL_FORMAT_OPTION,
         path: ".",
-        all: false
+        all: false,
+        only: nil
       }
       available_formats = ADLicenseLint::Constant::AVAILABLE_OPTIONS
 
@@ -24,6 +25,10 @@ module ADLicenseLint
 
         p.on("-a", "--all", "[Optional] Display all licenses (default to #{options[:all]})") do |arg|
           options[:all] = true
+        end
+
+        p.on("-o", "--only [PODS]", Array, "[Optional] Display licenses for pods in argument. E.g -o Pod1,Pod2.") do |arg|
+          options[:only] = arg
         end
 
         p.on("-h", "--help", "Prints this help") do

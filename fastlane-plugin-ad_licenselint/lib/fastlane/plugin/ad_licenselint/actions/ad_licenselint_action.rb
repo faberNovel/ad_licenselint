@@ -14,7 +14,8 @@ module Fastlane
         runner = ADLicenseLint::Runner.new({
           format: params[:format],
           path: params[:path],
-          all: params[:all]
+          all: params[:all],
+          only: params[:only]
         })
 
         Actions.lane_context[SharedValues::AD_LICENSE_LINT_REPORT] = runner.create_report.to_hash
@@ -59,6 +60,11 @@ module Fastlane
                                   optional: true,
                              default_value: false,
                                  is_string: false),
+          FastlaneCore::ConfigItem.new(key: :only,
+                                  env_name: "AD_LICENSE_LINT_FORMAT",
+                               description: "Subset of pods",
+                                  optional: true,
+                                      type: Array),
         ]
       end
 

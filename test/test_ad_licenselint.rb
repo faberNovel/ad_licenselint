@@ -87,6 +87,35 @@ class ADLincenseLintTest < TestCase
     refute_includes content, "MIT"
   end
 
+  def test_only_with_all
+    install_pods(["Alamofire", "ObjectivePGP"])
+    options = {
+      format: ADLicenseLint::Constant::TERMINAL_FORMAT_OPTION,
+      path: PODFILE_DIR,
+      only: ["Alamofire"],
+      all: true
+    }
+
+    content = ADLicenseLint::Runner.new(options).run
+    assert_includes content, "Alamofire"
+    assert_includes content, "MIT"
+    refute_includes content, "ObjectivePGP"
+    refute_includes content, "BSD for non-commercial use"
+  end
+
+  def test_only_with_warnings
+    install_pods(["Alamofire", "ObjectivePGP"])
+    options = {
+      format: ADLicenseLint::Constant::TERMINAL_FORMAT_OPTION,
+      path: PODFILE_DIR,
+      only: ["Alamofire"],
+      all: false
+    }
+
+    content = ADLicenseLint::Runner.new(options).run
+    assert_empty content
+  end
+
   private
   def podfile_content(pods)
     pod_list = pods

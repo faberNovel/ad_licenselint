@@ -57,7 +57,7 @@ bundle exec ad_licenselint -p path/to/Podfile
 
 This will output the licenses that are not free to use in your project. By default, `MIT`, `Apache` or `BSD` are considered valid.
 
-If you want to see all the licenses, run:
+If you want to see licenses that are valid anyway, run:
 
 ```
 bundle exec ad_licenselint -a
@@ -130,6 +130,28 @@ Commercial-use license to use in commercial products. Please contact me via emai
 </details>
 
 ---
+
+If you want to see the warnings for a subset of pods (and not the whole pod list from the Podfile), use the `-o` option:
+
+```
+bundle exec ad_licenselint -o Alamofire -a
+
++-------------------+---------+----------------------------------------------------+
+| Pod               | License | Source                                             |
++-------------------+---------+----------------------------------------------------+
+| Alamofire         | MIT     | https://github.com/Alamofire/Alamofire             |
++-------------------+---------+----------------------------------------------------+
+```
+
+```
+bundle exec ad_licenselint -o ObjectivePGP
+
++-------------------+----------------------------+----------------------------------------------------+
+| Pod               | License                    | Source                                             |
++-------------------+----------------------------+----------------------------------------------------+
+| ObjectivePGP      | BSD for non-commercial use | https://github.com/krzyzanowskim/ObjectivePGP      |
++-------------------+----------------------------+----------------------------------------------------+
+```
 
 If you want to see all the options available, display help:
 
