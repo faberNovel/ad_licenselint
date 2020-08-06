@@ -24,7 +24,10 @@ module ADLicenseLint
 
     def run
       report = create_report
-      return "" if report.empty?
+      if report.empty?
+        LOGGER.log(:info, :green, "No warnings found.")
+        return ""
+      end
 
       case options[:format]
       when ADLicenseLint::Constant::MARKDOWN_FORMAT_OPTION
@@ -54,6 +57,7 @@ module ADLicenseLint
         .flatten
         .select(&:is_valid)
         .select { |e| pod_names.include?(e.pod_name) }
+        .select { |e| options[:only].nil? ? true : options[:only].include?(e.pod_name) }
         .uniq(&:pod_name)
       entries.each { |e| e.source_url = source_url(e.pod_name) }
       entries
