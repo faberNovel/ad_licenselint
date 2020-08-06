@@ -17,9 +17,9 @@ module Fastlane
           all: params[:all],
           only: params[:only]
         })
-
-        Actions.lane_context[SharedValues::AD_LICENSE_LINT_REPORT] = runner.create_report.to_hash
-        Actions.lane_context[SharedValues::AD_LICENSE_LINT_SUMMARY] = runner.run
+        report = runner.create_report
+        Actions.lane_context[SharedValues::AD_LICENSE_LINT_REPORT] = report.to_hash
+        Actions.lane_context[SharedValues::AD_LICENSE_LINT_SUMMARY] = runner.format(report)
       end
 
       def self.description
