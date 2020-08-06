@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [UNRELEASE]
 
+### Added
+
+- New option `--only` to lint a subset of pods
+- Add `Apache 2.0` to accepted licenses
+
 ## [1.0.0] - 2020-08-05
 
 Initial version
