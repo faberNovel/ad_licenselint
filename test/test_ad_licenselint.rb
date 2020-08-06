@@ -25,8 +25,8 @@ class ADLincenseLintTest < TestCase
     }
 
     content = ADLicenseLint::Runner.new(options).run
-    assert content.include?("Alamofire")
-    assert content.include?("MIT")
+    assert_includes content, "Alamofire"
+    assert_includes content, "MIT"
   end
 
   def test_one_valid_pod_no_warning
@@ -38,7 +38,7 @@ class ADLincenseLintTest < TestCase
     }
 
     content = ADLicenseLint::Runner.new(options).run
-    assert_equal content, ""
+    assert_empty content
   end
 
   def test_one_invalid_pod
@@ -52,8 +52,8 @@ class ADLincenseLintTest < TestCase
       }
 
       content = ADLicenseLint::Runner.new(options).run
-      assert content.include?("ObjectivePGP")
-      assert content.include?("BSD for non-commercial use")
+      assert_includes content, "ObjectivePGP"
+      assert_includes content, "BSD for non-commercial use"
     }
   end
 
@@ -66,10 +66,10 @@ class ADLincenseLintTest < TestCase
     }
 
     content = ADLicenseLint::Runner.new(options).run
-    assert content.include?("Alamofire")
-    assert content.include?("MIT")
-    assert content.include?("ObjectivePGP")
-    assert content.include?("BSD for non-commercial use")
+    assert_includes content, "Alamofire"
+    assert_includes content, "MIT"
+    assert_includes content, "ObjectivePGP"
+    assert_includes content, "BSD for non-commercial use"
   end
 
   def test_one_valid_one_invalid_pod_warning
@@ -81,8 +81,10 @@ class ADLincenseLintTest < TestCase
     }
 
     content = ADLicenseLint::Runner.new(options).run
-    assert content.include?("ObjectivePGP")
-    assert content.include?("BSD for non-commercial use")
+    assert_includes content, "ObjectivePGP"
+    assert_includes content, "BSD for non-commercial use"
+    refute_includes content, "Alamofire"
+    refute_includes content, "MIT"
   end
 
   private
