@@ -164,17 +164,18 @@ bundle exec ad_licenselint -h
 If you want to use the the gem in your ruby scripts, you can generate a report like so:
 
 ```ruby
+# create a runner with optional options
 runner = ADLicenseLint::Runner.new({
   format: ADLicenseLint::Constant::MARKDOWN_FORMAT_OPTION,
   path: "/path/to/Podfile",
   all: false
 })
 
-# either print the string
-puts runner.run
-
-# either use the generated report
+# create a report
 report = runner.create_report
+
+# print the formatted result
+puts runner.format(report)
 ```
 
 ## Tests

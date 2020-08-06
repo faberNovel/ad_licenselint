@@ -26,8 +26,7 @@ module ADLicenseLint
       Report.new(displayed_entries)
     end
 
-    def run
-      report = create_report
+    def format(report)
       if report.empty?
         LOGGER.log(:info, :green, "No warnings found.")
         return ""
@@ -39,6 +38,10 @@ module ADLicenseLint
       when ADLicenseLint::Constant::TERMINAL_FORMAT_OPTION
         TerminalFormatter.new(report).formatted_content
       end
+    end
+
+    def run
+      format create_report
     end
 
     private
