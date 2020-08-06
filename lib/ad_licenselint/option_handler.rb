@@ -4,12 +4,7 @@ module ADLicenseLint
 
     def self.parse
 
-      options = {
-        format: ADLicenseLint::Constant::TERMINAL_FORMAT_OPTION,
-        path: ".",
-        all: false,
-        only: nil
-      }
+      options = ADLicenseLint::Constant::DEFAULT_OPTIONS
       available_formats = ADLicenseLint::Constant::AVAILABLE_OPTIONS
 
       parser = OptionParser.new do |p|

@@ -6,7 +6,11 @@ module ADLicenseLint
     POD_SOURCE = Pod::Source.new("~/.cocoapods/repos/master")
 
     def initialize(options = nil)
-      @options = options || OptionHandler.parse
+      if options.nil?
+        @options = OptionHandler.parse
+      else
+        @options = ADLicenseLint::Constant::DEFAULT_OPTIONS.merge(options)
+      end
       @path = File.expand_path(@options[:path])
     end
 
