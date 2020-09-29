@@ -3,7 +3,12 @@ module ADLicenseLint
   class Runner
     attr_accessor :options, :path
 
-    POD_SOURCE = Pod::Source.new("~/.cocoapods/repos/master")
+    COCOAPODS_REPOS = ENV["HOME"] + "/.cocoapods/repos/"
+    if File.exist?(COCOAPODS_REPOS + "trunk")
+      POD_SOURCE = Pod::Source.new(COCOAPODS_REPOS + "trunk")
+    else
+      POD_SOURCE = Pod::Source.new(COCOAPODS_REPOS + "master")
+    end
 
     def initialize(options = nil)
       if options.nil?
