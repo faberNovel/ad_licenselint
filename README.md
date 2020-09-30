@@ -24,7 +24,7 @@ bundle exec ad_licenselint -f term -p /path/to/Podfile -a
 Add this line to your Gemfile:
 
 ```ruby
-gem 'ad_licenselint`
+gem 'ad_licenselint'
 ```
 
 And then execute:
