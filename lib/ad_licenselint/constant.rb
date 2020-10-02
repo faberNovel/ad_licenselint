@@ -8,7 +8,8 @@ module ADLicenseLint
       format: TERMINAL_FORMAT_OPTION,
       path: ".",
       all: false,
-      only: nil
+      only: nil,
+      remote_only: false
     }
   end
 end

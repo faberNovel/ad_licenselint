@@ -1,3 +1,5 @@
 .idea
 .byebug_history
 .ruby-version
+
+vendor/bundle

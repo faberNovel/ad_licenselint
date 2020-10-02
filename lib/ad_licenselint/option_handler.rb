@@ -22,6 +22,10 @@ module ADLicenseLint
           options[:all] = true
         end
 
+        p.on("-r", "--remote_only", "[Optional] Show only remote pods (default to #{options[:remote_only]})") do |arg|
+          options[:remote_only] = true
+        end
+
         p.on("-o", "--only [PODS]", Array, "[Optional] Display licenses for pods in argument. E.g -o Pod1,Pod2.") do |arg|
           options[:only] = arg
         end

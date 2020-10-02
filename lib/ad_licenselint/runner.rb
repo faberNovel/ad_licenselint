@@ -88,6 +88,7 @@ module ADLicenseLint
 
     def pod_names_from_podfile
       Pod::Podfile.from_file(podfile_path).dependencies
+        .select { |d| options[:remote_only] ? !d.local? : true }
         .map(&:name)
         .map { |e| e.split("/").first } # ex: convert CocoaLumberjack/Swift to CocoaLumberjack
         .uniq
