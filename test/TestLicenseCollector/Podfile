@@ -3,6 +3,7 @@ platform :ios, '13.3'
 target 'TestLicenseCollector' do
   use_frameworks!
   pod 'Alamofire'
+  
 
   target 'TestLicenseCollectorTests' do
     inherit! :search_paths
