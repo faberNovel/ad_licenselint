@@ -4,3 +4,4 @@
 .yardoc
 pkg
 .DS_Store
+./vendor
