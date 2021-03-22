@@ -3,7 +3,10 @@ module ADLicenseLint
   class Runner
     attr_accessor :options, :path
 
-    POD_SOURCE = Pod::Source.new("~/.cocoapods/repos/master")
+    POD_SOURCES = ["trunk", "master"]
+      .map { |source| File.join(ENV["HOME"], ".cocoapods/repos", source) }
+      .select { |path| File.exist? path }
+      .map { |path| Pod::Source.new path }
 
     def initialize(options = nil)
       if options.nil?
@@ -81,9 +84,13 @@ module ADLicenseLint
     end
 
     def pod_specification(pod_name)
-      set = POD_SOURCE.set(pod_name)
-      return nil if set.highest_version.nil? # access to specification crashes if highest_version is nil
-      set.specification.to_hash
+      POD_SOURCES
+        .map { |source| source.set(pod_name) }
+        .filter { |set| !set.highest_version.nil? } # access to specification crashes if highest_version is nil
+        .sort_by(&:highest_version)
+        .reverse # highest version first
+        .map { |set| set.specification.to_hash }
+        .first
     end
 
     def pod_names_from_podfile
