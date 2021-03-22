@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [UNRELEASE]
 
+### Fixed
+
+- Search pod specification in both `trunk` and `master` sources
+
 ## [1.1.0] - 2020-08-06
 
 ### Added
