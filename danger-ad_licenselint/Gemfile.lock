@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    danger-ad_licenselint (0.0.1)
+    danger-ad_licenselint (1.0.0)
       ad_licenselint (~> 1.1)
       danger-plugin-api (~> 1.0)
 
