@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [UNRELEASE]
 
+## [1.2.0] - 2021-03-23
+
 ### Added
 
 - Handle allowlist in the file `.ad_licenselint.yml` ([#9](https://github.com/faberNovel/ad_licenselint/pull/9))
