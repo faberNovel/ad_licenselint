@@ -159,6 +159,18 @@ If you want to see all the options available, display help:
 bundle exec ad_licenselint -h
 ```
 
+### Allow list
+
+You may want to hide warnings for pods you know are valid (for instance private pods that have a commercial license). For this purpose, you can create a file `.ad_licenselint.yml` next to your `Podfile` that looks like this:
+
+```yaml
+allow:
+- ObjectivePGP
+- SomeOtherPod
+```
+
+Next, when you will run `bundle exec ad_licenselint`, `ObjectivePGP` will not emit a warning anymore.
+
 ### Ruby
 
 If you want to use the the gem in your ruby scripts, you can generate a report like so:
