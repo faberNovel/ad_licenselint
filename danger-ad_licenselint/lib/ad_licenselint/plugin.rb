@@ -30,7 +30,7 @@ module Danger
     #
 
     def lint_licenses(inline_mode: false)
-      return if git.modified_files.grep(/Podfile/).empty?
+      return if podfile_path.nil? || lockfile_path.nil?
 
       runner = ADLicenseLint::Runner.new({
         format: ADLicenseLint::Constant::MARKDOWN_FORMAT_OPTION,
@@ -48,6 +48,14 @@ module Danger
     end
 
     private
+
+    def podfile_path
+      git.modified_files.grep(/Podfile\z/).first
+    end
+
+    def lockfile_path
+      git.modified_files.grep(/Podfile.lock\z/).first
+    end
 
     def write_to_file(content)
       result = nil
@@ -85,10 +93,10 @@ module Danger
     end
 
     def get_modified_pods_from_diff
-      after_podfile = write_to_file(git.info_for_file("Podfile")[:after]) { |path|
+      after_podfile = write_to_file(git.info_for_file(podfile_path)[:after]) { |path|
         Pod::Podfile.from_file path
       }
-      before_lockfile = write_to_file(git.info_for_file("Podfile.lock")[:before]) { |path|
+      before_lockfile = write_to_file(git.info_for_file(lockfile_path)[:before]) { |path|
         Pod::Lockfile.from_file(Pathname(path))
       }
       changes = before_lockfile.detect_changes_with_podfile(after_podfile)
@@ -96,14 +104,14 @@ module Danger
     end
 
     def post_inline_messages(report)
-      podfile_content = git.info_for_file("Podfile")[:after]
+      podfile_content = git.info_for_file(podfile_path)[:after]
       report
         .entries
         .each { |pod_report|
           line = line_for_content(pod_report.pod_name, podfile_content)
           warn(
             comment_for_report(pod_report),
-            file: "Podfile",
+            file: podfile_path,
             line: line
           )
         }
