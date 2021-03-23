@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    danger-ad_licenselint (1.0.0)
+    danger-ad_licenselint (1.0.1)
       ad_licenselint (~> 1.1)
       danger-plugin-api (~> 1.0)
 
@@ -13,7 +13,7 @@ GEM
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    ad_licenselint (1.1.0)
+    ad_licenselint (1.2.0)
       cocoapods-core (~> 1.9)
       colorize (~> 0.8)
       terminal-table (~> 1.8)
