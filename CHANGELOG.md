@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [UNRELEASE]
 
+### Added
+
+- Handle allowlist in the file `.ad_licenselint.yml`
+
 ### Fixed
 
 - Search pod specification in both `trunk` and `master` sources

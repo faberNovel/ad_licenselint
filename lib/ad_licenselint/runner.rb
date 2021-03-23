@@ -1,3 +1,5 @@
+require 'yaml'
+
 module ADLicenseLint
 
   class Runner
@@ -23,7 +25,7 @@ module ADLicenseLint
       plist_files = Dir[acknowledgements_plist_path] # one plist for each target
       json_contents = plist_files.map { |plist_file| acknowledgement_json(plist_file) }
       entries = all_entries(json_contents)
-      warning_entries = entries.reject(&:is_accepted)
+      warning_entries = entries.reject { |entry| accepted? entry }
       displayed_entries = options[:all] ? entries : warning_entries
 
       Report.new(displayed_entries)
@@ -108,8 +110,24 @@ module ADLicenseLint
       File.join(@path, 'Pods', 'Target\ Support\ Files')
     end
 
+    def config_path
+      File.join(@path, ".ad_licenselint.yml")
+    end
+
     def acknowledgements_plist_path
       File.join(target_support_path, "Pods-*/*acknowledgements.plist")
+    end
+
+    def accepted?(entry)
+      ADLicenseLint::Constant::ACCEPTED_LICENSES.include?(entry.license_name) || allowlist.include?(entry.pod_name)
+    end
+
+    def config_file
+      @config ||= (File.exist?(config_path) ? YAML.load(File.read(config_path)) : {})
+    end
+
+    def allowlist
+      config_file["allow"] || []
     end
   end
 end

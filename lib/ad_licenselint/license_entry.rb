@@ -12,10 +12,6 @@ class LicenseEntry
     !pod_name.empty? && !license_name.empty?
   end
 
-  def is_accepted
-    ADLicenseLint::Constant::ACCEPTED_LICENSES.include?(license_name)
-  end
-
   def copyright
     (/Copyright(.*)$/.match license_content)[0]
   end
