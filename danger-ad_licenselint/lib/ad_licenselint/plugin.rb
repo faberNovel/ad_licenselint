@@ -1,5 +1,5 @@
 require 'ad_licenselint'
-require 'cocoapods-core'
+require 'cocoapods'
 
 module Danger
   # Lint license from pods in your Podfile
