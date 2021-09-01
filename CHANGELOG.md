@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [UNRELEASE]
 
+### Fixed
+
+- Change dependency from `cocoapods-core` to `cocoapods` to fix Podfile evaluation
+
 ## [1.2.0] - 2021-03-23
 
 ### Added
