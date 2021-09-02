@@ -6,9 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [UNRELEASE]
 
+## [1.3.0] - 2021-09-02
+
 ### Fixed
 
-- Change dependency from `cocoapods-core` to `cocoapods` to fix Podfile evaluation
+- Change dependency from `cocoapods-core` to `cocoapods` to fix Podfile evaluation ([#15](https://github.com/faberNovel/ad_licenselint/pull/15))
 
 ## [1.2.0] - 2021-03-23
 
