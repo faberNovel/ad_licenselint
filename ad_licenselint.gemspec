@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'ad_licenselint'
-  s.version     = '1.3.0'
+  s.version     = '1.4.0'
   s.executables << 'ad_licenselint'
   s.date        = '2020-08-04'
   s.summary     = "Lint the licenses for iOS projects"

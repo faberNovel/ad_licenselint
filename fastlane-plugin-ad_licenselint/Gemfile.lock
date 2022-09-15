@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     fastlane-plugin-ad_licenselint (1.1.1)
-      ad_licenselint (~> 1.1)
+      ad_licenselint (~> 1)
 
 GEM
   remote: https://rubygems.org/
@@ -290,4 +290,4 @@ DEPENDENCIES
   simplecov
 
 BUNDLED WITH
-   2.1.4
+   2.3.22
