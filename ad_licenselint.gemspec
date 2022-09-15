@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'bundler', '>= 1.12.0', '< 3.0.0'
   s.add_development_dependency 'rake', '~> 12.3'
-  s.add_development_dependency 'minitest', '~> 5.11'
+  s.add_development_dependency 'minitest', '~> 5.16'
   s.add_development_dependency 'byebug', '~> 11.0'
   s.add_development_dependency 'minitest-reporters', '~> 1.3'
   s.add_development_dependency 'minitest-hooks', '~> 1.5'
@@ -22,5 +22,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'terminal-table', '~> 1.8'
   s.add_dependency 'cocoapods', '~> 1.9'
 
-  s.required_ruby_version = '~> 2.3'
+  s.required_ruby_version = '>= 2.6'
 end

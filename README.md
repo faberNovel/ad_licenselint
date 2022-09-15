@@ -1,22 +1,22 @@
 # ADLicenselint
 
-The purpose of this gem is to automatically generate a summary of the licenses for the pods used in an iOS project.
-
+The purpose of this gem is to automatically generate a summary of the licenses for the pods used in
+an iOS project.
 
 ## Example
 
-```
+```ruby
 bundle exec ad_licenselint -f term -p /path/to/Podfile -a
 
-+-------------------+----------------------------+----------------------------------------------------+
-| Pod               | License                    | Source                                             |
-+-------------------+----------------------------+----------------------------------------------------+
-| Alamofire         | MIT                        | https://github.com/Alamofire/Alamofire             |
-| Firebase          | Apache                     | https://github.com/firebase/firebase-ios-sdk       |
-| ObjectivePGP      | BSD for non-commercial use | https://github.com/krzyzanowskim/ObjectivePGP      |
-| SwiftGen          | MIT                        | https://github.com/SwiftGen/SwiftGen               |
-| SwiftLint         | MIT                        | https://github.com/realm/SwiftLint                 |
-+-------------------+----------------------------+----------------------------------------------------+
++-------------------+----------------------------+-----------------------------------------------+
+| Pod               | License                    | Source                                        |
++-------------------+----------------------------+-----------------------------------------------+
+| Alamofire         | MIT                        | https://github.com/Alamofire/Alamofire        |
+| Firebase          | Apache                     | https://github.com/firebase/firebase-ios-sdk  |
+| ObjectivePGP      | BSD for non-commercial use | https://github.com/krzyzanowskim/ObjectivePGP |
+| SwiftGen          | MIT                        | https://github.com/SwiftGen/SwiftGen          |
+| SwiftLint         | MIT                        | https://github.com/realm/SwiftLint            |
++-------------------+----------------------------+-----------------------------------------------+
 ```
 
 ## Installation
@@ -28,54 +28,57 @@ gem 'ad_licenselint'
 ```
 
 And then execute:
-```
+
+```ruby
 bundle install
 ```
 
 You can also install it globally running:
-```
+
+```ruby
 gem install ad_licenselint
 ```
 
 ## Usage
 
-### Command line:
+### Command line
 
-```
+```bash
 cd path/to/Podfile
 bundle exec ad_licenselint
 
 # Alternatively, use the -p option
 bundle exec ad_licenselint -p path/to/Podfile
 
-+-------------------+----------------------------+----------------------------------------------------+
-| Pod               | License                    | Source                                             |
-+-------------------+----------------------------+----------------------------------------------------+
-| ObjectivePGP      | BSD for non-commercial use | https://github.com/krzyzanowskim/ObjectivePGP      |
-+-------------------+----------------------------+----------------------------------------------------+
++-------------------+----------------------------+-----------------------------------------------+
+| Pod               | License                    | Source                                        |
++-------------------+----------------------------+-----------------------------------------------+
+| ObjectivePGP      | BSD for non-commercial use | https://github.com/krzyzanowskim/ObjectivePGP |
++-------------------+----------------------------+-----------------------------------------------+
 ```
 
-This will output the licenses that are not free to use in your project. By default, `MIT`, `Apache` or `BSD` are considered valid.
+This will output the licenses that are not free to use in your project. By default, `MIT`, `Apache`
+or `BSD` are considered valid.
 
 If you want to see licenses that are valid anyway, run:
 
-```
+```bash
 bundle exec ad_licenselint -a
 
-+-------------------+----------------------------+----------------------------------------------------+
-| Pod               | License                    | Source                                             |
-+-------------------+----------------------------+----------------------------------------------------+
-| Alamofire         | MIT                        | https://github.com/Alamofire/Alamofire             |
-| Firebase          | Apache                     | https://github.com/firebase/firebase-ios-sdk       |
-| ObjectivePGP      | BSD for non-commercial use | https://github.com/krzyzanowskim/ObjectivePGP      |
-| SwiftGen          | MIT                        | https://github.com/SwiftGen/SwiftGen               |
-| SwiftLint         | MIT                        | https://github.com/realm/SwiftLint                 |
-+-------------------+----------------------------+----------------------------------------------------+
++-------------------+----------------------------+-----------------------------------------------+
+| Pod               | License                    | Source                                        |
++-------------------+----------------------------+-----------------------------------------------+
+| Alamofire         | MIT                        | https://github.com/Alamofire/Alamofire        |
+| Firebase          | Apache                     | https://github.com/firebase/firebase-ios-sdk  |
+| ObjectivePGP      | BSD for non-commercial use | https://github.com/krzyzanowskim/ObjectivePGP |
+| SwiftGen          | MIT                        | https://github.com/SwiftGen/SwiftGen          |
+| SwiftLint         | MIT                        | https://github.com/realm/SwiftLint            |
++-------------------+----------------------------+-----------------------------------------------+
 ```
 
 By default the output format is set to `term`. You can use `md` to generate a markdown output:
 
-```
+```bash
 bundle exec ad_licenselint -f md
 ```
 
@@ -88,10 +91,12 @@ The output becomes:
 | ObjectivePGP | BSD for non-commercial use | https://github.com/krzyzanowskim/ObjectivePGP |
 
 <details>
+
 <summary>Licenses</summary>
 
 ### ObjectivePGP
-```
+
+```markdown
 The ObjectivePGP stays under a dual license:
 
 ====================================================================
@@ -127,13 +132,15 @@ Paid for commercial use:
 
 Commercial-use license to use in commercial products. Please contact me via email (marcin@krzyzanowskim.com) for details.
 ```
+
 </details>
 
 ---
 
-If you want to see the warnings for a subset of pods (and not the whole pod list from the Podfile), use the `-o` option:
+If you want to see the warnings for a subset of pods (and not the whole pod list from the Podfile),
+use the `-o` option:
 
-```
+```bash
 bundle exec ad_licenselint -o Alamofire -a
 
 +-------------------+---------+----------------------------------------------------+
@@ -143,25 +150,27 @@ bundle exec ad_licenselint -o Alamofire -a
 +-------------------+---------+----------------------------------------------------+
 ```
 
-```
+```bash
 bundle exec ad_licenselint -o ObjectivePGP
 
-+-------------------+----------------------------+----------------------------------------------------+
-| Pod               | License                    | Source                                             |
-+-------------------+----------------------------+----------------------------------------------------+
-| ObjectivePGP      | BSD for non-commercial use | https://github.com/krzyzanowskim/ObjectivePGP      |
-+-------------------+----------------------------+----------------------------------------------------+
++-------------------+----------------------------+-----------------------------------------------+
+| Pod               | License                    | Source                                        |
++-------------------+----------------------------+-----------------------------------------------+
+| ObjectivePGP      | BSD for non-commercial use | https://github.com/krzyzanowskim/ObjectivePGP |
++-------------------+----------------------------+-----------------------------------------------+
 ```
 
 If you want to see all the options available, display help:
 
-```
+```bash
 bundle exec ad_licenselint -h
 ```
 
 ### Allow list
 
-You may want to hide warnings for pods you know are valid (for instance private pods that have a commercial license). For this purpose, you can create a file `.ad_licenselint.yml` next to your `Podfile` that looks like this:
+You may want to hide warnings for pods you know are valid (for instance private pods that have a
+commercial license). For this purpose, you can create a file `.ad_licenselint.yml` next to your
+`Podfile` that looks like this:
 
 ```yaml
 allow:
@@ -196,4 +205,5 @@ Run `make tests` to run the tests.
 
 ## License
 
-The gem is available as open source under the terms of the [MIT license](http://opensource.org/licenses/mit-license.php)
+The gem is available as open source under the terms of the
+[MIT license](http://opensource.org/licenses/mit-license.php)

@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   # Don't add a dependency to fastlane or fastlane_re
   # since this would cause a circular dependency
 
-  spec.add_dependency 'ad_licenselint', '~> 1.1'
+  spec.add_dependency 'ad_licenselint', '~> 1'
 
   spec.add_development_dependency('pry')
   spec.add_development_dependency('bundler')

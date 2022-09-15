@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [UNRELEASE]
 
+- Add support for Ruby 3.x ([#16](https://github.com/faberNovel/ad_licenselint/pull/16))
+
 ## [1.3.0] - 2021-09-02
 
 ### Fixed
