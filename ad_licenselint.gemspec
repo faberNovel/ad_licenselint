@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
 
   s.add_development_dependency 'bundler', '>= 1.12.0', '< 3.0.0'
-  s.add_development_dependency 'rake', '~> 12.3'
+  s.add_development_dependency 'rake', '~> 13.0'
   s.add_development_dependency 'minitest', '~> 5.16'
   s.add_development_dependency 'byebug', '~> 11.0'
   s.add_development_dependency 'minitest-reporters', '~> 1.3'
