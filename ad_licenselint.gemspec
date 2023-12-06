@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'minitest-reporters', '~> 1.3'
   s.add_development_dependency 'minitest-hooks', '~> 1.5'
 
-  s.add_dependency 'colorize', '~> 0.8'
+  s.add_dependency 'colorize', '~> 1.0'
   s.add_dependency 'terminal-table', '~> 1.8'
   s.add_dependency 'cocoapods', '~> 1.9'
 
