@@ -203,6 +203,15 @@ puts runner.format(report)
 
 Run `make tests` to run the tests.
 
+## How to contribute
+
+1. After all your changes are reviewed and merged
+2. Create a `release` branch
+3. Update the version in field `s.version` from file `ad_licenselint.gemspec`
+4. Execute `make publish`
+
+You may need to configure your account at step `4.` if you've never pushed any gem. You can find all the informations you need on [the official documentation](https://guides.rubygems.org/make-your-own-gem/#your-first-gem).
+
 ## License
 
 The gem is available as open source under the terms of the
