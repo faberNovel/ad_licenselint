@@ -22,5 +22,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'terminal-table', '~> 3.0'
   s.add_dependency 'cocoapods', '~> 1.9'
 
-  s.required_ruby_version = '>= 2.6'
+  s.required_ruby_version = '>= 2.7'
 end
