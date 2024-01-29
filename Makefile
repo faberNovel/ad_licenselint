@@ -4,6 +4,9 @@ build:
 install: clean build
 	gem install ad_licenselint-*.gem
 
+publish: clean build
+	gem push ad_licenselint-*.gem
+
 clean:
 	rm -f ad_licenselint-*.gem
 
