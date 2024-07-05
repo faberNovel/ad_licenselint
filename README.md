@@ -209,6 +209,8 @@ Run `make tests` to run the tests.
 2. Create a `release` branch
 3. Update the version in field `s.version` from file `ad_licenselint.gemspec`
 4. Execute `make publish`
+5. Update `VERSION` from file `danger-ad_lincenselint/lib/ad_licencelint/gem_version.rb` and `fatlane-plugin-ad_licenselint/lib/fastlane/plugin/ad_licencelint/gem_version.rb`
+6. Go to `danger-ad_lincenselint` and `fastlane-plugin-ad_licenselint` to publish them as well
 
 You may need to configure your account at step `4.` if you've never pushed any gem. You can find all the informations you need on [the official documentation](https://guides.rubygems.org/make-your-own-gem/#your-first-gem).
 
